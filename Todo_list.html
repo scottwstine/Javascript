@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf_8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background-color: #004080;
+        color: whitesmoke;
+    }
+
+    .top_div {
+        margin-top: 40px
+    }
+
+    .flex-container {
+        /*using flex-box because I want 2 columns.   */
+        display: flex;
+        flex-direction: row;
+        width: 100%
+    }
+
+    .add_task {
+        display: inline-block;
+        cursor: pointer;
+        font-size: 20px;
+        border-radius: 10px;
+        background-color: #4CAF50 color: whitesmoke
+    }
+
+    .btn {
+        border: none;
+        padding: 15px 25px;
+        /*representing the added tasks as borderless buttons */
+        background-color: inherit;
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+        color: whitesmoke;
+    }
+
+    .btn:hover {
+        background: #eee;
+        color: #004d99
+    }
+
+    .list_div {
+        /*div for collecting the tasks */
+        width: 40%;
+        text-align: left;
+        border: double;
+        margin-right: 300px;
+    }
+
+    .completed_div {
+        /*div for collecting completed tasks. The completed tasks are div elements.*/
+        width: 40%;        
+        text-align: right;
+        margin-left: 300px;
+    }
+
+    .completed_div>div {        
+        text-decoration: line-through;        
+        text-align: right;
+    }
+</style>
+
+<body>
+    <div id="top_div" class="top_div">
+        <input id="task" type="text" placeholder="Enter a task" />
+        <button id="add_task" class="add_task">Add Task To List</button>
+    </div>
+    <div id="container_div" class="flex-container">
+        <div id="list">
+            <h3>This is My Task List</h3>
+            <h4>(Click to Complete || Double-click to remove) </h4>
+        </div>
+        <div id="completed" class="completed_div">
+            <h3>Completed</h3>
+        </div>
+    </div>
+    <script>
+        let input_field = document.getElementById("task")   
+        let list = document.querySelector("#list")
+        let completed = document.querySelector("#completed")
+        let add_task = document.querySelector("#add_task")
+        let timer = null
+        input_field.addEventListener("keyup", function (event) { //enter key = click
+            event.preventDefault();
+            if (event.keyCode === 13) {
+                document.getElementById("add_task").click();
+            }
+        })                            
+        add_task.onclick = function () {                
+            let entry = document.createElement("button") //added tasks are actually buttons
+            let brk = document.createElement("br") //prefer they be vertical          
+            entry.innerText = input_field.value  
+            entry.classList = ["btn"]  //apply the attributes from 'btn' class
+            input_field.value = ''                     
+
+            entry.onclick = function () {  //allowing for functional single vs double-click option on same button
+                if (timer != null) {       //if a second click happens within 250 mlsds, skip else block
+                    clearTimeout(timer);
+                    timer = null;
+                }
+                else {
+                    timer = setTimeout(function () {  //if no second click happens w/in 250 milsds
+                        let completed_div = document.createElement("div")
+                        completed_div.innerText = entry.innerText
+                        completed.appendChild(completed_div)
+                        list.removeChild(entry)
+                        timer = null;
+                    }, 250)
+                }
+            }
+
+            entry.ondblclick = function () {   //double-click function - button(task) removes itself
+                list.removeChild(this)
+            }
+            list.appendChild(entry)
+            list.appendChild(brk)
+        }
+
+
+    </script>
+
+</body>
+
+</html>
