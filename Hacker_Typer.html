@@ -1,0 +1,35 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HackerTyper</title>
+    <script src="code.js"></script> <!--source from any page of code-->
+</head>
+<style>
+    body {
+        background-color: black;
+        color: rgb(0, 255, 0);
+    }
+    
+</style>
+
+<body>
+    <pre id="main" class="main">     
+    </pre>
+
+    <script>
+        let main = document.querySelector("#main")        
+        main.innerText = ''
+        let i = 0
+        document.onkeypress = function () {
+            let ext = 1+Math.floor(Math.random() * 5)
+            i += ext
+            main.innerText = code.substring(0, i)
+        }
+
+    </script>
+</body>
+
+</html>
